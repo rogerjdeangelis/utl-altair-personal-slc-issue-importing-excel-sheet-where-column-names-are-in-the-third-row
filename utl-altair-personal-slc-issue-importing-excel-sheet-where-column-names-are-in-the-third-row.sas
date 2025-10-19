@@ -4,6 +4,10 @@
 
 Altair personal slc issue importing excel sheet where column names are in the third row
 
+Too long to post on a listserf see
+github
+https://github.com/rogerjdeangelis/utl-altair-personal-slc-issue-importing-excel-sheet-where-column-names-are-in-the-third-row
+
   CONTENTS
 
      1 libname excel fails. Drops first 3 rows of data.
