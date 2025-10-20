@@ -5,18 +5,19 @@ Altair personal slc issue importing excel sheet where column names are in the th
     %stop_submission;
 
     Altair personal slc issue importing excel sheet where column names are in the third row
-    
+
     Too long to post on a listserf see
     github
     https://github.com/rogerjdeangelis/utl-altair-personal-slc-issue-importing-excel-sheet-where-column-names-are-in-the-third-row
 
       CONTENTS
 
-         1 libname excel fails. Drops first 3 rows of data.
-         2 proc import datarow=3? Ignores Dtarow?
+         1 libname excel fails.   Drops first 3 rows of data.
+         2 proc import datarow=3? Ignores Datarow?
+         3 r openxlsx
 
     SOAPBOX ON
-      I am new tto the altair slc so I may not have the corect combination
+      I am new to the altair slc so I may not have the corect combination
       of options.
     SOAPBOX OFF
 
@@ -99,7 +100,7 @@ Altair personal slc issue importing excel sheet where column names are in the th
       delete datarow3;
     run;quit;
 
-    libname xls excel "d:/xls/startrow.xlsx" header=no;
+    libname xls excel "d:/xls/startrow.xlsx" ;
 
     data datarow3;
       set have(firstobs=3);
@@ -117,7 +118,7 @@ Altair personal slc issue importing excel sheet where column names are in the th
       delete datarow3;
     run;quit;
 
-    libname xls xlsx "d:/xls/startrow.xlsx";
+    libname xls xlsx "d:/xls/startrow.xlsx" ;
 
     data datarow3;
       set have(firstobs=3);
@@ -329,6 +330,96 @@ Altair personal slc issue importing excel sheet where column names are in the th
           Current working set : 83020k
           Page fault count    : 2
 
+    /*____                                      _
+    |___ /   _ __    ___  _ __   ___ _ __ __  _| |_____  __
+      |_ \  | `__|  / _ \| `_ \ / _ \ `_ \\ \/ / / __\ \/ /
+     ___) | | |    | (_) | |_) |  __/ | | |>  <| \__ \>  <
+    |____/  |_|     \___/| .__/ \___|_| |_/_/\_\_|___/_/\_\
+                         |_|
+    */
+
+    &_init_;
+    proc r;
+    submit;
+    library(openxlsx)
+    df <- as.data.frame(read.xlsx("d:/xls/startrow.xlsx", startRow = 3, colNames = TRUE))
+    head(df)
+    endsubmit;
+    import data=df r=df;
+    run;quit;
+
+    proc print;
+    run;
+
+    OUTPUT
+    ======
+
+    Obs     NAME      SEX    AGE
+
+     1     Alfred      M      14
+     2     Alice       F      13
+     3     Barbara     F      13
+     4     Carol       F      14
+     5     Henry       M      14
+     6     James       M      12
+
+    /*
+    | | ___   __ _
+    | |/ _ \ / _` |
+    | | (_) | (_| |
+    |_|\___/ \__, |
+             |___/
+    */
+
+    SYMBOLGEN: Macro variable _init_ resolved to      ods _all_ close;   ods listing;   options ls=255 ps=65     nofmterr nocenter     nodate nonumber     noquotelenmax     validvarname=upcase     compress=no     FORMCHAR='|----|+|---+=|-/\<>*'
+    SYMBOLGEN: Some characters in the above value which were subject to macro quoting have been unquoted for printing
+    2087
+    2088      &_init_;
+    2089      proc r;
+    2090      submit;
+    2091      library(openxlsx)
+    2092      df <- as.data.frame(read.xlsx("d:/xls/startrow.xlsx", startRow = 3, colNames = TRUE))
+    2093      head(df)
+    2094      endsubmit;
+    NOTE: Using R version 4.5.1 (2025-06-13 ucrt) from d:\r451
+
+    NOTE: Submitting statements to R:
+
+    > library(openxlsx)
+    > df <- as.data.frame(read.xlsx("d:/xls/startrow.xlsx", startRow = 3, colNames = TRUE))
+
+    NOTE: Processing of R statements complete
+
+    > head(df)
+    2095      import data=df r=df;
+    NOTE: Creating data set 'WORK.df' from R data frame 'df'
+    NOTE: Data set "WORK.df" has 6 observation(s) and 3 variable(s)
+
+    2096      run;quit;
+    NOTE: Procedure r step took :
+          real time       : 2.480
+          user cpu time   : 0.000
+          system cpu time : 0.031
+          Timestamp       :   20OCT25:06:28:39
+          Peak working set    : 91176k
+          Current working set : 45940k
+          Page fault count    : 173
+
+
+    2097
+    2098      proc print;
+    2099      run;
+    NOTE: 6 observations were read from "WORK.df"
+    NOTE: Procedure print step took :
+          real time       : 0.010
+          user cpu time   : 0.000
+          system cpu time : 0.000
+          Timestamp       :   20OCT25:06:28:39
+          Peak working set    : 91176k
+          Current working set : 45940k
+          Page fault count    : 4
+
+
     /*              _
       ___ _ __   __| |
      / _ \ `_ \ / _` |
@@ -336,3 +427,5 @@ Altair personal slc issue importing excel sheet where column names are in the th
      \___|_| |_|\__,_|
 
     */
+
+
