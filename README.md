@@ -117,7 +117,7 @@ Altair personal slc issue importing excel sheet where column names are in the th
       delete datarow3;
     run;quit;
 
-    libname xls xlsx "d:/xls/startrow.xlsx" header=no;
+    libname xls xlsx "d:/xls/startrow.xlsx";
 
     data datarow3;
       set have(firstobs=3);
@@ -164,7 +164,7 @@ Altair personal slc issue importing excel sheet where column names are in the th
 
 
     1921
-    1922      libname xls xlsx "d:/xls/startrow.xlsx" header=no;
+    1922      libname xls xlsx "d:/xls/startrow.xlsx";
     NOTE: Library xls assigned as follows:
           Engine:        XLSX
           Physical Name: d:\xls\startrow.xlsx
