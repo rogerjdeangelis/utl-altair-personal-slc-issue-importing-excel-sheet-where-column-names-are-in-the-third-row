@@ -97,7 +97,7 @@ proc datasets lib=work nodetails nolist;
   delete datarow3;
 run;quit;
 
-libname xls excel "d:/xls/startrow.xlsx" header=no;
+libname xls excel "d:/xls/startrow.xlsx";
 
 data datarow3;
   set have(firstobs=3);
@@ -115,7 +115,7 @@ proc datasets lib=work nodetails nolist;
   delete datarow3;
 run;quit;
 
-libname xls xlsx "d:/xls/startrow.xlsx" header=no;
+libname xls xlsx "d:/xls/startrow.xlsx" ;
 
 data datarow3;
   set have(firstobs=3);
